@@ -13,10 +13,14 @@ $ rndout -help
         maximum number of characters printed in one line/operation (default 4096)
   -duration duration
         duration (default 1m0s)
+  -mode string
+        the operation mode, one of 'logistic' or 'ramp' (default "logistic")
+  -ramp-duration duration
+        time taken to reach the peak rate; only used with -mode=ramp (default 10s)
   -rate string
         peak character rate in chars/s (default "128")
   -scale int
-        scale factor for the output logistic distribution (default 25)
+        scale factor for the output distribution; only used with -mode=logistic (default 25)
   -skip-probability float
         probability that a given slice will contain skips
   -skips int
@@ -30,6 +34,14 @@ $ rndout -help
 Output is written to `stdout`.
 
 ## Algorithm
+
+### `ramp` mode
+
+Linearly increase the output rate on each step until reaching the peak output
+rate after the ramp duration. Remain at that output rate for the remaining
+time.
+
+### `logistic` mode
 
 1. Divide the duration by the step size
 2. Select a random step at which to reach the peak output rate
